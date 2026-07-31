@@ -1,0 +1,94 @@
+C:\Users\SAI HIMA SEKHAR>cd\
+
+C:\>cd /d "C:\Program Files\MySQL\MySQL Server 8.0\bin"
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
+
+Enter password: ****
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.46 MySQL Community Server - GPL
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| shs                |
+| sys                |
++--------------------+
+6 rows in set (0.01 sec)
+
+mysql> CREATE DATABASE bookflow_db;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use bookflow_db;
+Database changed
+
+mysql> CREATE TABLE Books (Book_id INT PRIMARY KEY, TITLE VARCHAR(255) NOT NULL, ISBN VARCHAR(25) UNIQUE, PUBLISHED_YEAR INT CHECK (PUBLISHED_YEAR < 2027));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc Books;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| Book_id        | int          | NO   | PRI | NULL    |       |
+| TITLE          | varchar(255) | NO   |     | NULL    |       |
+| ISBN           | varchar(25)  | YES  | UNI | NULL    |       |
+| PUBLISHED_YEAR | int          | YES  |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> CREATE TABLE Members (MEMBER_ID INT PRIMARY KEY, FULL_NAME VARCHAR(100), EMAIL VARCHAR(100) UNIQUE);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Members;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| MEMBER_ID | int          | NO   | PRI | NULL    |       |
+| FULL_NAME | varchar(100) | YES  |     | NULL    |       |
+| EMAIL     | varchar(100) | YES  | UNI | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Books values (1,'Harry Potter', '8638276646262', 1997), (2, 'JAVA ESSENTIALS', '67483985647', 1999), (3, 'THE BETRAIED PRIENCE', '34878379873765', 2009);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+ysql> select * from Books;
++---------+----------------------+----------------+----------------+
+| Book_id | TITLE                | ISBN           | PUBLISHED_YEAR |
++---------+----------------------+----------------+----------------+
+|       1 | Harry Potter         | 8638276646262  |           1997 |
+|       2 | JAVA ESSENTIALS      | 67483985647    |           1999 |
+|       3 | THE BETRAIED PRIENCE | 34878379873765 |           2009 |
++---------+----------------------+----------------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Members values (1, 'CHRANDRA_SEKHAR', 'chrandrasekhar@gmail.com'), (2, 'RAJUMOLI', 'rajumoli@gmail.com'), (3, 'SAI_HIMA_SEKHAR', 'saihimasekhar@klh.edu.in');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from Members;
++-----------+-----------------+--------------------------+
+| MEMBER_ID | FULL_NAME       | EMAIL                    |
++-----------+-----------------+--------------------------+
+|         1 | CHRANDRA_SEKHAR | chrandrasekhar@gmail.com |
+|         2 | RAJUMOLI        | rajumoli@gmail.com       |
+|         3 | SAI_HIMA_SEKHAR | saihimasekhar@klh.edu.in |
++-----------+-----------------+--------------------------+
+3 rows in set (0.00 sec)
+
+functioning CHECK:-
+
+mysql> insert into Members(MEMBER_ID, FULL_NAME, EMAIL) VALUES (NULL, 'SAI_HEMASEKHAR', 'saiheamsekar@gmial.com');
+ERROR 1048 (23000): Column 'MEMBER_ID' cannot be null
