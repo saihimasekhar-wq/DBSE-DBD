@@ -1,0 +1,287 @@
+
+-------------------------------------------
+
+-- 1. Create Table
+CREATE TABLE student_marks (
+    roll_no INT PRIMARY KEY,
+    name VARCHAR(50),
+    subject VARCHAR(50),
+    marks DECIMAL(5,2)
+);
+
+-- 2. Insert Data
+INSERT INTO student_marks (roll_no, name, subject, marks) VALUES
+(1, 'Ravi', 'Math', 85.50),
+(2, 'Sita', 'Math', 92.75),
+(3, 'Anil', 'Math', 78.40),
+(4, 'Priya', 'Math', 88.90),
+(5, 'Vijay', 'Math', 80.25),
+(6, 'subbusir', 'aws', 98.50),
+(7, 'dwaraka', 'dbms', 95.75),
+(8, 'ranjani', 'english', 97.40),
+(9, 'kavithamam', 'aws1', 99.90),
+(10, 'seetha', 'azure', 82.25);
+
+-- 3. Simple Select
+SELECT * FROM student_marks;
+
+-- 4. Aggregate Functions
+SELECT COUNT(*) AS total_students FROM student_marks;
+SELECT SUM(marks) FROM student_marks;
+SELECT AVG(marks) FROM student_marks;
+SELECT MAX(marks) FROM student_marks;
+SELECT MIN(marks) FROM student_marks;
+
+-- 5. Filtering with WHERE
+SELECT * FROM student_marks WHERE marks > 85;
+SELECT * FROM student_marks WHERE marks >= 90;
+SELECT * FROM student_marks WHERE marks < 80;
+SELECT * FROM student_marks WHERE marks BETWEEN 80 AND 90;
+SELECT * FROM student_marks WHERE name LIKE 'P%';
+SELECT * FROM student_marks WHERE name IN ('Ravi', 'Sita', 'Vijay');
+SELECT * FROM student_marks WHERE marks > 85 AND (subject = 'Math' OR name LIKE 'P%');
+
+-- 6. Update Queries
+UPDATE student_marks SET marks = 90.00 WHERE roll_no = 3;
+UPDATE student_marks SET subject = 'Remedial Math' WHERE marks < 80;
+
+-- 7. Delete Queries
+DELETE FROM student_marks WHERE roll_no = 5;
+DELETE FROM student_marks WHERE marks < 75;
+
+-- 8. Sorting
+SELECT * FROM student_marks ORDER BY marks ASC;
+SELECT * FROM student_marks ORDER BY marks DESC;
+SELECT * FROM student_marks ORDER BY name ASC;
+SELECT * FROM student_marks ORDER BY name DESC;
+
+-- 9. Group By
+SELECT subject, SUM(marks) AS total_marks FROM student_marks GROUP BY subject;
+SELECT subject, AVG(marks) AS avg_marks FROM student_marks GROUP BY subject;
+SELECT subject, COUNT(*) AS num_students FROM student_marks GROUP BY subject;
+
+-- 10. Having
+SELECT subject, AVG(marks) AS avg_marks
+FROM student_marks
+GROUP BY subject
+HAVING AVG(marks) > 90;
+
+SELECT subject, COUNT(*) AS num_students
+FROM student_marks
+GROUP BY subject
+HAVING COUNT(*) > 1;
+
+
+
+-------------------------------
+outputs:
+--------------------------------------------
+Here are only the outputs for each query based on the given data (before updates/deletes, then after updates/deletes, then group by/having).
+
+Initial Table Data
+roll_no | name       | subject   | marks
+----------------------------------------
+1       | Ravi       | Math      | 85.50
+2       | Sita       | Math      | 92.75
+3       | Anil       | Math      | 78.40
+4       | Priya      | Math      | 88.90
+5       | Vijay      | Math      | 80.25
+6       | subbusir   | aws       | 98.50
+7       | dwaraka    | dbms      | 95.75
+8       | ranjani    | english   | 97.40
+9       | kavithamam | aws1      | 99.90
+10      | seetha     | azure     | 82.25
+
+ Aggregates
+COUNT(*) → 10
+SUM(marks) → 899.55
+AVG(marks) → 89.955
+MAX(marks) → 99.90
+MIN(marks) → 78.40
+
+WHERE Filters
+
+marks > 85
+
+2 Sita      Math     92.75
+4 Priya     Math     88.90
+6 subbusir  aws      98.50
+7 dwaraka   dbms     95.75
+8 ranjani   english  97.40
+9 kavithamam aws1    99.90
+
+
+marks >= 90
+
+2 Sita      Math     92.75
+6 subbusir  aws      98.50
+7 dwaraka   dbms     95.75
+8 ranjani   english  97.40
+9 kavithamam aws1    99.90
+
+
+marks < 80
+
+3 Anil   Math   78.40
+
+
+marks BETWEEN 80 AND 90
+
+1 Ravi    Math   85.50
+4 Priya   Math   88.90
+5 Vijay   Math   80.25
+10 seetha azure  82.25
+
+
+name LIKE 'P%'
+
+4 Priya   Math   88.90
+
+
+name IN ('Ravi','Sita','Vijay')
+
+1 Ravi   Math   85.50
+2 Sita   Math   92.75
+5 Vijay  Math   80.25
+
+
+marks > 85 AND (subject = 'Math' OR name LIKE 'P%')
+
+2 Sita   Math   92.75
+4 Priya  Math   88.90
+
+After Updates
+
+roll_no 3 (Anil) marks → 90.00
+
+subjects with marks < 80 → none (since 78.40 became 90.00)
+
+> B Dwarakanath:
+roll_no | name       | subject   | marks
+----------------------------------------
+1  Ravi       Math           85.50
+2  Sita       Math           92.75
+3  Anil       Math           90.00
+4  Priya      Math           88.90
+5  Vijay      Math           80.25
+6  subbusir   aws            98.50
+7  dwaraka    dbms           95.75
+8  ranjani    english        97.40
+9  kavithamam aws1           99.90
+10 seetha     azure          82.25
+
+After Deletes
+
+Deleted roll_no 5 (Vijay)
+
+Deleted marks < 75 (none)
+
+roll_no | name       | subject   | marks
+----------------------------------------
+1  Ravi       Math     85.50
+2  Sita       Math     92.75
+3  Anil       Math     90.00
+4  Priya      Math     88.90
+6  subbusir   aws      98.50
+7  dwaraka    dbms     95.75
+8  ranjani    english  97.40
+9  kavithamam aws1     99.90
+10 seetha     azure    82.25
+
+ORDER BY
+
+marks ASC
+
+1 Ravi    85.50
+10 seetha 82.25
+4 Priya   88.90
+3 Anil    90.00
+2 Sita    92.75
+7 dwaraka 95.75
+8 ranjani 97.40
+6 subbusir 98.50
+9 kavithamam 99.90
+
+
+marks DESC
+
+9 kavithamam 99.90
+6 subbusir   98.50
+8 ranjani    97.40
+7 dwaraka    95.75
+2 Sita       92.75
+3 Anil       90.00
+4 Priya      88.90
+1 Ravi       85.50
+10 seetha    82.25
+
+
+name ASC
+
+3 Anil
+7 dwaraka
+9 kavithamam
+4 Priya
+1 Ravi
+8 ranjani
+10 seetha
+2 Sita
+6 subbusir
+
+
+name DESC
+
+6 subbusir
+2 Sita
+10 seetha
+8 ranjani
+1 Ravi
+4 Priya
+9 kavithamam
+7 dwaraka
+3 Anil
+
+ GROUP BY
+
+SUM(marks) per subject
+
+Math     357.15
+aws      98.50
+dbms     95.75
+english  97.40
+aws1     99.90
+azure    82.25
+
+
+AVG(marks) per subject
+
+Math     89.29
+aws      98.50
+dbms     95.75
+english  97.40
+aws1     99.90
+azure    82.25
+
+
+COUNT per subject
+
+Math     4
+aws      1
+dbms     1
+english  1
+aws1     1
+azure    1
+
+HAVING
+
+AVG(marks) > 90
+
+aws      98.50
+dbms     95.75
+english  97.40
+aws1     99.90
+
+
+COUNT(subject) > 1
+
+Math   4
